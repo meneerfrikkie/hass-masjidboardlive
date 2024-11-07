@@ -1,0 +1,10 @@
+{
+    "domain": "salaah_times",
+    "name": "Salaah Times",
+    "documentation": "https://github.com/meneerfrikkie/masjidboardlive",
+    "requirements": ["requests", "beautifulsoup4"],
+    "dependencies": [],
+    "codeowners": ["@meneerfrikkie"],
+    "version": "1.0.0"
+  }
+  
