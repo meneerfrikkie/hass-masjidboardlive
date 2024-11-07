@@ -1,30 +1,27 @@
 import logging
-import requests  # Add this line to import the requests library
+import requests
 from bs4 import BeautifulSoup
-import voluptuous as vol
 from datetime import timedelta
-from homeassistant.helpers import config_validation as cv
+from homeassistant.core import HomeAssistant
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+from homeassistant import config_entries
 from .const import DOMAIN, CONF_MASJID_BOARD_URL, CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL, PRAYERS
-from .sensor import SalaahTimesSensor
+from .config_flow import SalaahTimesFlowHandler
 
 _LOGGER = logging.getLogger(__name__)
 
-CONFIG_SCHEMA = vol.Schema({
-    DOMAIN: vol.Schema({
-        vol.Required(CONF_MASJID_BOARD_URL): cv.url,
-        vol.Optional(CONF_POLL_INTERVAL, default=DEFAULT_POLL_INTERVAL): cv.positive_int,
-    })
-}, extra=vol.ALLOW_EXTRA)
-
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the Salaah Times component."""
-    conf = config[DOMAIN]
-    url = conf[CONF_MASJID_BOARD_URL]
-    poll_interval = conf.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL)
+    return True
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
+    """Set up the Salaah Times from a config entry."""
+    masjid_board_url = entry.data[CONF_MASJID_BOARD_URL]
+    poll_interval = entry.data.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL)
 
     # Create and initialize the coordinator
-    coordinator = SalaahTimesCoordinator(hass, url, poll_interval)
+    coordinator = SalaahTimesCoordinator(hass, masjid_board_url, poll_interval)
     await coordinator.async_config_entry_first_refresh()
 
     # Register sensors for each prayer time with the masjid name prefix
@@ -34,7 +31,7 @@ async def async_setup(hass: HomeAssistant, config: dict):
             "prayer": prayer,
             "coordinator": coordinator,
             "masjid_name": masjid_name
-        }, config)
+        }, entry)
 
     return True
 
