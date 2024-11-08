@@ -1,6 +1,6 @@
 import logging
 import aiohttp
-from bs4 import BeautifulSoup  # Import BeautifulSoup for parsing
+from bs4 import BeautifulSoup
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import aiohttp_client
@@ -69,8 +69,16 @@ class SalaahTimesFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     def _get_schema(self):
-        """Return the schema for the user input form."""
+        """Return the schema for the user input form with neat descriptions."""
         return vol.Schema({
-            vol.Required(CONF_MASJID_BOARD_URL): str,
-            vol.Optional(CONF_POLL_INTERVAL, default=DEFAULT_POLL_INTERVAL): int,
+            vol.Required(
+                CONF_MASJID_BOARD_URL, 
+                description={
+                    "suggested_value": "https://masjidboardlive.com/boards/?southdale-ebrahim"
+                }
+            ): str,
+            vol.Optional(
+                CONF_POLL_INTERVAL, 
+                description={"suggested_value": DEFAULT_POLL_INTERVAL}
+            ): int,
         })

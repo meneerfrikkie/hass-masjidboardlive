@@ -1,7 +1,7 @@
-DOMAIN = "salaah_times"
+DOMAIN = "masjidboardlive"
 
-CONF_MASJID_BOARD_URL = "masjid_board_url"
-CONF_POLL_INTERVAL = "poll_interval"
+CONF_MASJID_BOARD_URL = "URL of the Live Masjid Board"
+CONF_POLL_INTERVAL = "Poll Interval (seconds)"
 
 DEFAULT_POLL_INTERVAL = 600  # in seconds
 
