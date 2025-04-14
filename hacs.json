@@ -1,0 +1,8 @@
+{
+    "name": "Masjid Board Live",
+    "content_in_root": false,
+    "zip_release": true,
+    "filename": "masjidboardlive.zip",
+    "render_readme": true,
+    "homeassistant": "2025.4.2"
+  }
